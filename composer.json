@@ -1,0 +1,26 @@
+{
+  "name": "xdg/desktop-entry",
+  "description": "PHP implementation of the XDG Desktop Entry Specification",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Xdg\\DesktopEntry\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Xdg\\DesktopEntry\\Tests": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "ju1ius",
+      "email": "jules.bernable@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "ext-intl": "*"
+  }
+}
