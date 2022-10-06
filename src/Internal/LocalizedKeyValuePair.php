@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Xdg\DesktopEntry\KeyFile\Internal;
+namespace Xdg\DesktopFile\Internal;
 
 final class LocalizedKeyValuePair implements \Stringable
 {

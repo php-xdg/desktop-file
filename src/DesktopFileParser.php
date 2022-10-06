@@ -1,22 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace Xdg\DesktopEntry\KeyFile;
+namespace Xdg\DesktopFile;
 
-use Xdg\DesktopEntry\KeyFile\Exception\ParseError;
-use Xdg\DesktopEntry\KeyFile\Internal\Syntax;
+use Xdg\DesktopFile\Exception\ParseError;
+use Xdg\DesktopFile\Internal\Syntax;
 
-final class KeyFileParser
+final class DesktopFileParser
 {
     const FLAG_NONE = 0x0;
     const FLAG_KEEP_TRANSLATIONS = 0x01;
     const FLAG_KEEP_COMMENTS = 0x02;
 
-    public function parse(string $buffer, int $flags = 0): KeyFileInterface
+    public function parse(string $buffer, int $flags = 0): DesktopFileInterface
     {
         $keepComments = $flags & self::FLAG_KEEP_COMMENTS;
         $keepTranslations = $flags & self::FLAG_KEEP_TRANSLATIONS;
 
-        $keyFile = new KeyFile();
+        $keyFile = new DesktopFile();
         $currentGroup = null;
         $currentComment = '';
         $groupComment = '';

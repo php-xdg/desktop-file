@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Xdg\DesktopEntry\KeyFile;
+namespace Xdg\DesktopFile;
 
-use Xdg\DesktopEntry\KeyFile\Exception\SyntaxError;
-use Xdg\DesktopEntry\KeyFile\Internal\Group;
-use Xdg\DesktopEntry\KeyFile\Internal\KeyValuePair;
-use Xdg\DesktopEntry\KeyFile\Internal\Syntax;
+use Xdg\DesktopFile\Exception\SyntaxError;
+use Xdg\DesktopFile\Internal\Group;
+use Xdg\DesktopFile\Internal\KeyValuePair;
+use Xdg\DesktopFile\Internal\Syntax;
 
 /**
  * TODO: throw exceptions on key not found ?
  * TODO: preserve/edit comments
  */
-final class KeyFile implements KeyFileInterface
+final class DesktopFile implements DesktopFileInterface
 {
     /**
      * @var array<string, Group>

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Xdg\DesktopEntry\KeyFile;
+namespace Xdg\DesktopFile;
 
-interface KeyFileInterface extends \Stringable
+interface DesktopFileInterface extends \Stringable
 {
     public function setListSeparator(string $separator): void;
 

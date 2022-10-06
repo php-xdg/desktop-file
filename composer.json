@@ -1,16 +1,16 @@
 {
-  "name": "xdg/desktop-entry",
-  "description": "PHP implementation of the XDG Desktop Entry Specification",
+  "name": "xdg/desktop-file",
+  "description": "PHP library for reading editing and writing XDG desktop files.",
   "type": "library",
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Xdg\\DesktopEntry\\": "src/"
+      "Xdg\\DesktopFile\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Xdg\\DesktopEntry\\Tests\\": "tests/"
+      "Xdg\\DesktopFile\\Tests\\": "tests/"
     }
   },
   "authors": [

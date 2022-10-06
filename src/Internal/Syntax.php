@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Xdg\DesktopEntry\KeyFile\Internal;
+namespace Xdg\DesktopFile\Internal;
 
-use Xdg\DesktopEntry\KeyFile\Exception\ParseError;
-use Xdg\DesktopEntry\KeyFile\Exception\SyntaxError;
+use Xdg\DesktopFile\KeyFile\Exception\ParseError;
+use Xdg\DesktopFile\KeyFile\Exception\SyntaxError;
 
 final class Syntax
 {
