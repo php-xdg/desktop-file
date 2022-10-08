@@ -2,6 +2,9 @@
 
 namespace Xdg\DesktopFile\Internal;
 
+/**
+ * @internal
+ */
 final class Locale implements \Stringable
 {
     public readonly string $value;
