@@ -20,23 +20,30 @@ final class KeyValuePair implements \Stringable
     ) {
     }
 
-    public function setTranslation(string $locale, string $value): void
+    public function getTranslations(): array
     {
-        $entry = $this->translations[$locale] ??= new LocalizedKeyValuePair($this->key, $locale, '');
+        return $this->translations;
+    }
+
+    public function setTranslation(Locale|string $locale, string $value): void
+    {
+        $entry = $this->translations[(string)$locale] ??= new LocalizedKeyValuePair($this->key, (string)$locale, '');
         $entry->value = $value;
     }
 
-    public function getTranslation(string $locale): ?string
+    public function getTranslation(Locale|string $locale): ?string
     {
         return $this->getTranslationEntry($locale)?->value;
     }
 
-    public function getTranslationEntry(string $locale): ?LocalizedKeyValuePair
+    public function getTranslationEntry(Locale|string $locale): ?LocalizedKeyValuePair
     {
-        return $this->translations[$locale] ?? $this->findTranslation($locale);
+        $locale = Locale::of($locale);
+
+        return $this->translations[(string)$locale] ?? $this->findTranslation($locale);
     }
 
-    public function removeTranslation(string $locale): void
+    public function removeTranslation(Locale|string $locale): void
     {
         if ($entry = $this->getTranslationEntry($locale)) {
             unset($this->translations[$entry->locale]);
@@ -54,18 +61,12 @@ final class KeyValuePair implements \Stringable
         return implode("\n", array_merge($entries, $this->translations));
     }
 
-    private function findTranslation(string $locale): ?LocalizedKeyValuePair
+    private function findTranslation(Locale $locale): ?LocalizedKeyValuePair
     {
-        if ($key = $this->findTranslationKey($locale)) {
+        if ($key = $locale->select($this->translations)) {
             return $this->translations[$key];
         }
 
         return null;
-    }
-
-    private function findTranslationKey(string $locale): ?string
-    {
-        // TODO: this can fail if count($this->translations) > 100
-        return \Locale::lookup(array_keys($this->translations), $locale);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Xdg\DesktopFile;
 
-interface DesktopFileInterface extends \Stringable
+interface DesktopFileInterface extends \Stringable, \Traversable
 {
     public function setListSeparator(string $separator): void;
 
@@ -22,14 +22,18 @@ interface DesktopFileInterface extends \Stringable
 
     public function removeKey(string $groupName, string $key): void;
 
+    public function getValue(string $groupName, string $key, ?string $locale = null): ?string;
+
+    public function setValue(string $groupName, string $key, string $value, ?string $locale = null): void;
+
     public function getString(string $groupName, string $key, ?string $locale = null): ?string;
 
     public function setString(string $groupName, string $key, string $value, ?string $locale = null): void;
 
     /**
-     * @return string[]
+     * @return string[]|null
      */
-    public function getStringList(string $groupName, string $key, ?string $locale = null): array;
+    public function getStringList(string $groupName, string $key, ?string $locale = null): ?array;
 
     /**
      * @param string[] $list
@@ -41,9 +45,9 @@ interface DesktopFileInterface extends \Stringable
     public function setBoolean(string $groupName, string $key, bool $value): void;
 
     /**
-     * @return bool[]
+     * @return bool[]|null
      */
-    public function getBooleanList(string $groupName, string $key): array;
+    public function getBooleanList(string $groupName, string $key): ?array;
 
     /**
      * @param bool[] $values
@@ -55,9 +59,9 @@ interface DesktopFileInterface extends \Stringable
     public function setInteger(string $groupName, string $key, int $value): void;
 
     /**
-     * @return int[]
+     * @return int[]|null
      */
-    public function getIntegerList(string $groupName, string $key): array;
+    public function getIntegerList(string $groupName, string $key): ?array;
 
     /**
      * @param int[] $values
@@ -69,18 +73,14 @@ interface DesktopFileInterface extends \Stringable
     public function setFloat(string $groupName, string $key, float $value): void;
 
     /**
-     * @return float[]
+     * @return float[]|null
      */
-    public function getFloatList(string $groupName, string $key): array;
+    public function getFloatList(string $groupName, string $key): ?array;
 
     /**
      * @param float[] $values
      */
     public function setFloatList(string $groupName, string $key, array $values): void;
-
-    public function getValue(string $groupName, string $key, ?string $locale = null): ?string;
-
-    public function setValue(string $groupName, string $key, string $value, ?string $locale = null): void;
 
     public function getComment(): string;
 
@@ -90,8 +90,7 @@ interface DesktopFileInterface extends \Stringable
 
     public function setGroupComment(string $groupName, string $comment): void;
 
-    public function setKeyComment(string $groupName, string $key, string $comment, ?string $locale = null): void;
-
     public function getKeyComment(string $groupName, string $key, string $comment, ?string $locale = null): ?string;
 
+    public function setKeyComment(string $groupName, string $key, string $comment, ?string $locale = null): void;
 }
