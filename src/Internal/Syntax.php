@@ -2,8 +2,8 @@
 
 namespace Xdg\DesktopFile\Internal;
 
-use Xdg\DesktopFile\KeyFile\Exception\ParseError;
-use Xdg\DesktopFile\KeyFile\Exception\SyntaxError;
+use Xdg\DesktopFile\Exception\ParseError;
+use Xdg\DesktopFile\Exception\SyntaxError;
 
 final class Syntax
 {
