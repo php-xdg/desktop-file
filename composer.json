@@ -10,6 +10,10 @@
       "email": "jules.bernable@gmail.com"
     }
   ],
+  "scripts": {
+    "test": "XDEBUG_MODE=off tools/phpunit.phar",
+    "coverage": "XDEBUG_MODE=coverage tools/phpunit.phar --coverage-html=tmp/coverage"
+  },
   "autoload": {
     "psr-4": {
       "Xdg\\DesktopFile\\": "src/"

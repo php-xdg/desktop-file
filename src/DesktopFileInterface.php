@@ -61,7 +61,7 @@ interface DesktopFileInterface extends \Stringable, \Traversable
     /**
      * Returns the actual locale used when looking up a localized key.
      */
-    public function resolveLocaleForKey(string $groupName, string $key, Locale $locale): ?string;
+    public function resolveLocaleForKey(string $groupName, string $key, Locale|string $locale): ?string;
 
     /**
      * Returns the raw value associated with `$key` under `$groupName`,
@@ -69,7 +69,7 @@ interface DesktopFileInterface extends \Stringable, \Traversable
      *
      * To retrieve a string with unescaped characters, use {@see self::getString()}
      */
-    public function getValue(string $groupName, string $key, ?Locale $locale = null): ?string;
+    public function getValue(string $groupName, string $key, Locale|string|null $locale = null): ?string;
 
     /**
      * Sets the raw value associated with `$key` under `$groupName`,
@@ -78,7 +78,7 @@ interface DesktopFileInterface extends \Stringable, \Traversable
      * To set a string value which may contain characters that need escaping (such as newlines or spaces),
      * use {@see self::setString()}.
      */
-    public function setValue(string $groupName, string $key, string $value, ?Locale $locale = null): void;
+    public function setValue(string $groupName, string $key, string $value, Locale|string|null $locale = null): void;
 
     /**
      * Returns the value associated with `$key` under `$groupName`, optionally localized using `$locale`,
@@ -86,14 +86,14 @@ interface DesktopFileInterface extends \Stringable, \Traversable
      *
      * Unlike {@see self::getValue()}, this method handles escape sequences like "\n".
      */
-    public function getString(string $groupName, string $key, ?Locale $locale = null): ?string;
+    public function getString(string $groupName, string $key, Locale|string|null $locale = null): ?string;
 
     /**
      * Sets the value associated with `$key` under `$groupName`, optionally localized using `$locale`.
      *
      * Unlike {@see self::setValue()}, this method handles characters that need escaping, such as newlines.
      */
-    public function setString(string $groupName, string $key, string $value, ?Locale $locale = null): void;
+    public function setString(string $groupName, string $key, string $value, Locale|string|null $locale = null): void;
 
     /**
      * Returns the values associated with `$key` under `$groupName`, optionally localized using `$locale`,
@@ -101,14 +101,14 @@ interface DesktopFileInterface extends \Stringable, \Traversable
      *
      * @return string[]|null
      */
-    public function getStringList(string $groupName, string $key, ?Locale $locale = null): ?array;
+    public function getStringList(string $groupName, string $key, Locale|string|null $locale = null): ?array;
 
     /**
      * Sets the values associated with `$key` under `$groupName`, optionally localized using `$locale`.
      *
      * @param string[] $list
      */
-    public function setStringList(string $groupName, string $key, array $list, ?Locale $locale = null): void;
+    public function setStringList(string $groupName, string $key, array $list, Locale|string|null $locale = null): void;
 
     /**
      * Returns the value associated with `$key` under `$groupName` as a boolean,
@@ -174,14 +174,24 @@ interface DesktopFileInterface extends \Stringable, \Traversable
     public function setFloatList(string $groupName, string $key, array $values): void;
 
     /**
-     * Returns the topmost comment in the file.
+     * Returns the comment associated with the start group.
      */
-    public function getComment(): string;
+    public function getStartComment(): ?string;
 
     /**
-     * Sets the topmost comment in the file.
+     * Sets the comment associated with the start group.
      */
-    public function setComment(string $comment): void;
+    public function setStartComment(string $comment): void;
+
+    /**
+     * Returns the comment at the end of file.
+     */
+    public function getEndComment(): string;
+
+    /**
+     * Sets the comment at the end of file.
+     */
+    public function setEndComment(string $comment): void;
 
     /**
      * Returns the comment associated with the given group.
@@ -197,11 +207,11 @@ interface DesktopFileInterface extends \Stringable, \Traversable
     /**
      * Returns the comment associated with the given key.
      */
-    public function getKeyComment(string $groupName, string $key, string $comment, ?Locale $locale = null): ?string;
+    public function getKeyComment(string $groupName, string $key, string $comment, Locale|string|null $locale = null): ?string;
 
     /**
      * Sets the comment associated with the given key.
      * The comment will be written above the key in the file.
      */
-    public function setKeyComment(string $groupName, string $key, string $comment, ?Locale $locale = null): void;
+    public function setKeyComment(string $groupName, string $key, string $comment, Locale|string|null $locale = null): void;
 }

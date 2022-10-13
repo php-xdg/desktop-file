@@ -9,13 +9,12 @@ use Xdg\Locale\Locale;
  */
 final class Group implements \Stringable
 {
-    public string $comment = '';
-
     /**
      * @param array<string, KeyValuePair> $entries
      */
     public function __construct(
         public readonly string $name,
+        public string $comment = '',
         public array $entries = [],
     ) {
     }
@@ -23,8 +22,8 @@ final class Group implements \Stringable
     public function __toString(): string
     {
         return ($this->comment ? Syntax::serializeComment($this->comment) . "\n" : '')
-            . "[$this->name]\n"
-            . implode("\n", $this->entries)
+            . "[$this->name]"
+            . ($this->entries ? "\n" . implode("\n", $this->entries) : '')
         ;
     }
 

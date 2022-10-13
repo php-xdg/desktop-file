@@ -28,10 +28,6 @@ final class Syntax
         }
     }
 
-    private const GROUP_HEADER_RX = <<<'REGEXP'
-    /^ \[ (?<name> [^\[\]]+ ) ] $/x
-    REGEXP;
-
     /**
      * @return string[]
      */
@@ -39,6 +35,10 @@ final class Syntax
     {
         return preg_split('/(*BSR_ANYCRLF)\R/', $input);
     }
+
+    private const GROUP_HEADER_RX = <<<'REGEXP'
+    /^ \[ (?<name> [^\[\]]+ ) ] $/x
+    REGEXP;
 
     public static function parseGroupHeader(string $line, int $lineno = 0): string
     {
@@ -66,7 +66,7 @@ final class Syntax
             return [$m['key'], $m['value'] ?? '', $m['locale']];
         }
 
-        throw new ParseError(sprintf('Invalid entry: "%s" on line %d', $line, $lineno));
+        throw ParseError::invalidEntry($line, $lineno);
     }
 
     public static function parseValueAsString(string $value, ?string $listSeparator = null): array|string

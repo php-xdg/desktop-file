@@ -17,4 +17,9 @@ final class ParseError extends SyntaxError
     {
         return new self('Missing group header');
     }
+
+    public static function invalidEntry(string $entry, int $lineno): self
+    {
+        return new self(sprintf('Invalid entry: "%s" on line %d', $entry, $lineno));
+    }
 }
