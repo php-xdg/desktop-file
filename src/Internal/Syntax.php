@@ -62,7 +62,7 @@ final class Syntax
      */
     public static function parseKeyValuePair(string $line, int $lineno = 0): array
     {
-        if (preg_match(self::ENTRY_RX, $line, $m)) {
+        if (preg_match(self::ENTRY_RX, $line, $m, \PREG_UNMATCHED_AS_NULL)) {
             return [$m['key'], $m['value'] ?? '', $m['locale']];
         }
 

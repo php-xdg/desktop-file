@@ -2,6 +2,8 @@
 
 namespace Xdg\DesktopFile\Internal;
 
+use Xdg\Locale\Locale;
+
 /**
  * @internal
  */
@@ -20,11 +22,20 @@ final class Group implements \Stringable
 
     public function __toString(): string
     {
-        return sprintf(
-            "%s[%s]\n%s",
-            $this->comment ? Syntax::serializeComment($this->comment) . "\n" : '',
-            $this->name,
-            implode("\n", $this->entries),
-        );
+        return ($this->comment ? Syntax::serializeComment($this->comment) . "\n" : '')
+            . "[$this->name]\n"
+            . implode("\n", $this->entries)
+        ;
+    }
+
+    public function getTranslation(string $key, Locale $locale): ?KeyValuePair
+    {
+        foreach ($locale->getVariants() as $variant) {
+            if ($entry = $this->entries["{$key}[{$variant}]"] ?? null) {
+                return $entry;
+            }
+        }
+
+        return null;
     }
 }
