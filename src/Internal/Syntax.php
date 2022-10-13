@@ -71,22 +71,16 @@ final class Syntax
 
     public static function parseValueAsString(string $value, ?string $listSeparator = null): array|string
     {
-        $asList = !!$listSeparator;
+        $asList = !\is_null($listSeparator);
         $list = $asList ? [] : null;
         $i = 0;
         $l = \strlen($value);
         $buf = '';
         while ($i < $l) {
-            switch ($value[$i] ?? '') {
-                case '':
-                    break;
+            switch ($value[$i]) {
                 case $listSeparator:
-                    if ($asList) {
-                        $list[] = $buf;
-                        $buf = '';
-                    } else {
-                        $buf .= $listSeparator;
-                    }
+                    $list[] = $buf;
+                    $buf = '';
                     $i++;
                     break;
                 case '\\':
@@ -124,6 +118,9 @@ final class Syntax
         };
     }
 
+    /**
+     * @todo throw when converting flot to integer ?
+     */
     public static function parseInteger(string $value): int
     {
         return match (true) {

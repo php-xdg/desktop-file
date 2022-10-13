@@ -207,7 +207,7 @@ interface DesktopFileInterface extends \Stringable, \Traversable
     /**
      * Returns the comment associated with the given key.
      */
-    public function getKeyComment(string $groupName, string $key, string $comment, Locale|string|null $locale = null): ?string;
+    public function getKeyComment(string $groupName, string $key, Locale|string|null $locale = null): ?string;
 
     /**
      * Sets the comment associated with the given key.

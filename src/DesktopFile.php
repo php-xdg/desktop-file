@@ -107,7 +107,10 @@ final class DesktopFile implements DesktopFileInterface, \IteratorAggregate
 
     public function getStartGroup(): ?string
     {
-        return array_key_first($this->groups);
+        return match ($group = array_key_first($this->groups)) {
+            null => null,
+            default => (string)$group,
+        };
     }
 
     public function removeGroup(string $groupName): void
@@ -136,11 +139,7 @@ final class DesktopFile implements DesktopFileInterface, \IteratorAggregate
 
     public function resolveLocaleForKey(string $groupName, string $key, Locale|string $locale): ?string
     {
-        if ($entry = $this->getEntry($groupName, $key, $locale)) {
-            return $entry->locale;
-        }
-
-        return null;
+        return $this->getEntry($groupName, $key, $locale)?->locale;
     }
 
     public function getValue(string $groupName, string $key, Locale|string|null $locale = null): ?string
@@ -162,11 +161,10 @@ final class DesktopFile implements DesktopFileInterface, \IteratorAggregate
 
     public function getString(string $groupName, string $key, Locale|string|null $locale = null): ?string
     {
-        if (null === $value = $this->getValue($groupName, $key, $locale)) {
-            return null;
-        }
-
-        return Syntax::parseValueAsString($value);
+        return match ($value = $this->getValue($groupName, $key, $locale)) {
+            null => null,
+            default => Syntax::parseValueAsString($value),
+        };
     }
 
     public function setString(string $groupName, string $key, string $value, Locale|string|null $locale = null): void
@@ -176,11 +174,11 @@ final class DesktopFile implements DesktopFileInterface, \IteratorAggregate
 
     public function getStringList(string $groupName, string $key, Locale|string|null $locale = null): ?array
     {
-        if ($value = $this->getValue($groupName, $key, $locale)) {
-            return Syntax::parseValueAsString($value, $this->listSeparator);
-        }
-
-        return null;
+        return match ($value = $this->getValue($groupName, $key, $locale)) {
+            null => null,
+            '' => [],
+            default => Syntax::parseValueAsString($value, $this->listSeparator),
+        };
     }
 
     public function setStringList(string $groupName, string $key, array $list, Locale|string|null $locale = null): void
@@ -294,7 +292,6 @@ final class DesktopFile implements DesktopFileInterface, \IteratorAggregate
     public function getKeyComment(
         string $groupName,
         string $key,
-        string $comment,
         Locale|string|null $locale = null
     ): ?string {
         return $this->getEntry($groupName, $key, $locale)?->comment;
@@ -329,7 +326,7 @@ final class DesktopFile implements DesktopFileInterface, \IteratorAggregate
     {
         foreach ($this->groups as $groupName => $group) {
             foreach ($group->entries as $key => $entry) {
-                yield [$groupName, $key, $entry->value];
+                yield [(string)$groupName, (string)$key, $entry->value];
             }
         }
     }
@@ -343,7 +340,7 @@ final class DesktopFile implements DesktopFileInterface, \IteratorAggregate
     ): void {
         $group = $this->groups[$groupName] ??= new Group($groupName);
         $k = $locale ? "{$key}[{$locale}]" : $key;
-        $entry = $group->entries[$k] ??= new KeyValuePair($key, $value, $locale);
+        $entry = $group->entries[$k] ??= new KeyValuePair($key, $value, $locale ? (string)$locale : null);
         $entry->value = $value;
         if ($comment) {
             $entry->comment = $comment;
