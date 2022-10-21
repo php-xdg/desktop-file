@@ -1,5 +1,7 @@
 # xdg/desktop-file
 
+[![codecov](https://codecov.io/gh/php-xdg/desktop-file/branch/main/graph/badge.svg?token=DEJ4BIZKSZ)](https://codecov.io/gh/php-xdg/desktop-file)
+
 PHP library for reading, editing and writing XDG desktop files.
 
 ## Installation
