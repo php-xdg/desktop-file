@@ -70,7 +70,7 @@ This syntax is obviously inspired by the `.ini` files commonly met on Windows, b
 
 ### Implementation note
 
-Note that in contrast to the Desktop Entry Specification,
-groups in desktop files may contain the same key multiple times: the last entry wins.
-Desktop files may also contain multiple groups with the same name: they are merged together.
-Another difference is that keys and group names in desktop files are not restricted to ASCII characters.
+This implementation differs from the Desktop Entry Specification in the following ways:
+* groups in desktop files may contain the same key multiple times: the last entry wins.
+* Desktop files may also contain multiple groups with the same name: they are merged together.
+* Keys and group names in desktop files are not restricted to ASCII characters.
