@@ -3,20 +3,19 @@
 namespace Xdg\DesktopFile\Tests\Internal;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xdg\DesktopFile\Internal\Syntax;
 
 final class SyntaxTest extends TestCase
 {
-    /**
-     * @dataProvider splitLinesProvider
-     */
+    #[DataProvider('splitLinesProvider')]
     public function testSplitLines(string $input, array $expected): void
     {
         Assert::assertSame($expected, Syntax::splitLines($input));
     }
 
-    public function splitLinesProvider(): iterable
+    public static function splitLinesProvider(): iterable
     {
         yield 'CR' => [
             "foo\rbar\r",

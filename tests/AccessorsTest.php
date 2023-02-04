@@ -3,6 +3,7 @@
 namespace Xdg\DesktopFile\Tests;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xdg\DesktopFile\DesktopFile;
 use Xdg\DesktopFile\Exception\SyntaxError;
@@ -81,9 +82,7 @@ final class AccessorsTest extends TestCase
         $f->setListSeparator('\\');
     }
 
-    /**
-     * @dataProvider invalidNamesProvider
-     */
+    #[DataProvider('invalidNamesProvider')]
     public function testInvalidNames(string $group, string $key): void
     {
         $f = new DesktopFile();
@@ -91,7 +90,7 @@ final class AccessorsTest extends TestCase
         $f->setValue($group, $key, '');
     }
 
-    public function invalidNamesProvider(): iterable
+    public static function invalidNamesProvider(): iterable
     {
         yield 'group cannot contain []' => ['Gr[ou]p', 'Key'];
         yield 'group cannot contain newline' => ["Group\n1", 'Key'];
@@ -100,9 +99,7 @@ final class AccessorsTest extends TestCase
         yield 'key cannot contain newline' => ['Group', "Ke\ny"];
     }
 
-    /**
-     * @dataProvider setStringProvider
-     */
+    #[DataProvider('setStringProvider')]
     public function testSetString(string $input, string $expected): void
     {
         $f = new DesktopFile();
@@ -110,7 +107,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getValue('Test', 'String'));
     }
 
-    public function setStringProvider(): iterable
+    public static function setStringProvider(): iterable
     {
         yield 'simple string' => [
             'foobar',
@@ -130,9 +127,7 @@ final class AccessorsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getStringProvider
-     */
+    #[DataProvider('getStringProvider')]
     public function testGetString(string $input, string $expected): void
     {
         $f = new DesktopFile();
@@ -140,7 +135,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getString('Test', 'String'));
     }
 
-    public function getStringProvider(): iterable
+    public static function getStringProvider(): iterable
     {
         yield '\s => " "' => ['\s', ' '];
         yield '\t => "\t"' => ['\t', "\t"];
@@ -152,9 +147,7 @@ final class AccessorsTest extends TestCase
         yield '\a' => ['\a', '\a'];
     }
 
-    /**
-     * @dataProvider setStringListProvider
-     */
+    #[DataProvider('setStringListProvider')]
     public function testSetStringList(array $input, string $sep, string $expected): void
     {
         $f = new DesktopFile();
@@ -163,7 +156,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getValue('Test', 'Strings'));
     }
 
-    public function setStringListProvider(): iterable
+    public static function setStringListProvider(): iterable
     {
         yield 'simple list (;)' => [
             [1, 2, 3], ';',
@@ -183,9 +176,7 @@ final class AccessorsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getStringListProvider
-     */
+    #[DataProvider('getStringListProvider')]
     public function testGetStringList(string $input, array $expected): void
     {
         $f = new DesktopFile();
@@ -193,7 +184,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getStringList('Test', 'Strings'));
     }
 
-    public function getStringListProvider(): iterable
+    public static function getStringListProvider(): iterable
     {
         yield 'simple' => [
             'a;b;c;',
@@ -227,9 +218,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame('false', $f->getValue('Test', 'False'));
     }
 
-    /**
-     * @dataProvider getBooleanProvider
-     */
+    #[DataProvider('getBooleanProvider')]
     public function testGetBoolean(string $input, bool $expected, ?string $exception = null): void
     {
         if ($exception) {
@@ -240,7 +229,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getBoolean('Test', 'Bool'));
     }
 
-    public function getBooleanProvider(): iterable
+    public static function getBooleanProvider(): iterable
     {
         yield ['true', true];
         yield ['false', false];
@@ -255,9 +244,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame('true;false;true', $f->getValue('Test', 'Booleans'));
     }
 
-    /**
-     * @dataProvider getBooleanListProvider
-     */
+    #[DataProvider('getBooleanListProvider')]
     public function testGetBooleanList(string $input, array $expected, ?string $exception = null): void
     {
         if ($exception) {
@@ -268,7 +255,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getBooleanList('Test', 'Bool'));
     }
 
-    public function getBooleanListProvider(): iterable
+    public static function getBooleanListProvider(): iterable
     {
         yield ['true;false', [true, false]];
         yield ['true;false;true;', [true, false, true]];
@@ -282,9 +269,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame('42', $f->getValue('Test', 'Int'));
     }
 
-    /**
-     * @dataProvider getIntegerProvider
-     */
+    #[DataProvider('getIntegerProvider')]
     public function testGetInteger(string $input, int $expected, ?string $exception = null): void
     {
         if ($exception) {
@@ -295,7 +280,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getInteger('Test', 'Int'));
     }
 
-    public function getIntegerProvider(): iterable
+    public static function getIntegerProvider(): iterable
     {
         yield ['42', 42];
         yield ['3.14', 3]; // TODO: throw exception for loss of precision?
@@ -309,9 +294,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame('1;2;3', $f->getValue('Test', 'Integers'));
     }
 
-    /**
-     * @dataProvider getIntegerListProvider
-     */
+    #[DataProvider('getIntegerListProvider')]
     public function testGetIntegerList(string $input, array $expected, ?string $exception = null): void
     {
         if ($exception) {
@@ -322,7 +305,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getIntegerList('Test', 'IntList'));
     }
 
-    public function getIntegerListProvider(): iterable
+    public static function getIntegerListProvider(): iterable
     {
         yield ['0;1;2', [0, 1, 2]];
         yield ['1;2;3;', [1, 2, 3]];
@@ -339,9 +322,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame('66.6', $f->getValue('Test', 'Float'));
     }
 
-    /**
-     * @dataProvider getFloatProvider
-     */
+    #[DataProvider('getFloatProvider')]
     public function testGetFloat(string $input, float $expected, ?string $exception = null): void
     {
         if ($exception) {
@@ -352,7 +333,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getFloat('Test', 'Float'));
     }
 
-    public function getFloatProvider(): iterable
+    public static function getFloatProvider(): iterable
     {
         yield ['3.14', 3.14];
         yield ['42', 42.0];
@@ -366,9 +347,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame('3.14;42;66.6', $f->getValue('Test', 'Floats'));
     }
 
-    /**
-     * @dataProvider getFloatListProvider
-     */
+    #[DataProvider('getFloatListProvider')]
     public function testGetFloatList(string $input, array $expected, ?string $exception = null): void
     {
         if ($exception) {
@@ -379,7 +358,7 @@ final class AccessorsTest extends TestCase
         Assert::assertSame($expected, $f->getFloatList('Test', 'FloatList'));
     }
 
-    public function getFloatListProvider(): iterable
+    public static function getFloatListProvider(): iterable
     {
         yield ['0;1;2', [0.0, 1.0, 2.0]];
         yield ['1;2;3;', [1.0, 2.0, 3.0]];

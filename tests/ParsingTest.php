@@ -3,21 +3,20 @@
 namespace Xdg\DesktopFile\Tests;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Xdg\DesktopFile\DesktopFile;
 use Xdg\DesktopFile\Exception\ParseError;
 
 final class ParsingTest extends TestCase
 {
-    /**
-     * @dataProvider itParsesGroupHeadersProvider
-     */
+    #[DataProvider('itParsesGroupHeadersProvider')]
     public function testItParsesGroupHeaders(string $input, string $expected): void
     {
         Assert::assertSame($expected, trim((string)DesktopFile::parse($input)));
     }
 
-    public function itParsesGroupHeadersProvider(): iterable
+    public static function itParsesGroupHeadersProvider(): iterable
     {
         yield ['[Group]', '[Group]'];
         yield [
@@ -42,15 +41,13 @@ final class ParsingTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider itParsesKeyValuePairsProvider
-     */
+    #[DataProvider('itParsesKeyValuePairsProvider')]
     public function testItParsesKeyValuePairs(string $input, string $expected): void
     {
         Assert::assertSame($expected, trim((string)DesktopFile::parse($input)));
     }
 
-    public function itParsesKeyValuePairsProvider(): iterable
+    public static function itParsesKeyValuePairsProvider(): iterable
     {
         yield [
             "[G1]\nFoo=bar",
@@ -94,15 +91,13 @@ final class ParsingTest extends TestCase
         Assert::assertSame($expected, trim((string)$kf));
     }
 
-    /**
-     * @dataProvider itPreservesFileCommentsProvider
-     */
+    #[DataProvider('itPreservesFileCommentsProvider')]
     public function testItPreservesFileComments(string $input, string $expected): void
     {
         Assert::assertSame($expected, trim((string)DesktopFile::parse($input)));
     }
 
-    public function itPreservesFileCommentsProvider(): iterable
+    public static function itPreservesFileCommentsProvider(): iterable
     {
         yield 'comments only' => [
             "#a\n#b\n\n#c",
@@ -136,16 +131,14 @@ final class ParsingTest extends TestCase
         Assert::assertSame($expected, trim((string)$kf));
     }
 
-    /**
-     * @dataProvider parseErrorsProvider
-     */
+    #[DataProvider('parseErrorsProvider')]
     public function testParseErrors(string $input): void
     {
         $this->expectException(ParseError::class);
         DesktopFile::parse($input);
     }
 
-    public function parseErrorsProvider(): iterable
+    public static function parseErrorsProvider(): iterable
     {
         yield 'missing group header' => [
             'foo=bar',
